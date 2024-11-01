@@ -20,17 +20,18 @@ class ChatGPT:
         output_price = (response_length * MODELS_PRICING[self.model]['output']) / 1000
         return input_price + output_price
 
-    def completion(self, messages, prompt):
+    def completion(self, messages, last_message=None):
         try:
-            cost = self.calculate_cost(prompt)
+            if last_message:
+                cost = self.calculate_cost(last_message)
 
-            response = ''
-            while response not in ['y', 'yes', 'n', 'no']:
-                cost = round(cost, 2)
-                self.console.print(f"\n[{COLOR_WARNING}]The cost of this request is USD {cost}.\n[/{COLOR_WARNING}]") 
-                response = input('Do you want to continue? (y/n): ').lower()
-                if response in ['n', 'no']:
-                    sys.exit(1)
+                response = ''
+                while response not in ['y', 'yes', 'n', 'no']:
+                    cost = round(cost, 2)
+                    self.console.print(f"\n[{COLOR_WARNING}]The cost of this request is USD {cost}.\n[/{COLOR_WARNING}]") 
+                    response = input('Do you want to continue? (y/n): ').lower()
+                    if response in ['n', 'no']:
+                        sys.exit(1)
 
             response = self.openai.chat.completions.create(
                 model=self.model,
