@@ -30,8 +30,8 @@ def main():
 
     if args.dork:
         dorck_searcher = DorkSearcher()
-        results = dorck_searcher.search(args.dork)
-        table = Table(title="Dork Search Results", show_lines=True)
+        results = dorck_searcher.search(args.dork, args.pages)
+        table = Table(title=f"Dork Search Results ({len(results)})", show_lines=True)
         table.add_column("Title", style="cyan")
         table.add_column("Url", style="blue")
         table.add_column("Snipped", style="green")
